@@ -97,7 +97,7 @@ a:hover {
 
 .picky .selected {
     margin-left: 0;
-    justify-content: left;
+    /* justify-content: left; */ /* not supported in tableau 2018.3 */
 }
 
 .picky__input {
@@ -155,6 +155,8 @@ a:hover {
     font-size: 8pt;
     min-height: auto;
     border: 0;
+    /* display: flex; */ /* not supported in tableau 2018.3 */
+    display: block;
 }
 
 .picky__dropdown .option:focus, .picky__dropdown li:focus {
