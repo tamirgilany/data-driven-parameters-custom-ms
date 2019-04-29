@@ -21,6 +21,7 @@ interface State {
   currentVal: any[];
   disabled: boolean;
   firstInit: boolean;
+  height: any;
   list: any;
   multiselect: boolean;
 }
@@ -58,6 +59,7 @@ class DataDrivenParameter extends React.Component<any, State> {
     currentVal: [NeedsConfiguring],
     disabled: true,
     firstInit: true,
+    height: 80,
     list: [NeedsConfiguring],
     multiselect: false,
   };
@@ -78,6 +80,7 @@ class DataDrivenParameter extends React.Component<any, State> {
           this.setState({
             altMultiselect: settings.altMultiselect === 'true',
             bg: settings.bg ? fakeWhiteOverlay(settings.bg) : '#ffffff',
+            height: settings.height || 80,
             multiselect: settings.multiselect === 'true',
           });
           this.findParameter();
@@ -222,6 +225,7 @@ class DataDrivenParameter extends React.Component<any, State> {
           currentVal: [{ id: 0, name: '(All)' }],
           disabled: false,
           firstInit: false,
+          height: settings.height,
           list,
         });
       } else {
@@ -382,7 +386,6 @@ class DataDrivenParameter extends React.Component<any, State> {
       </React.Fragment>
     ) : (
       <React.Fragment>
-        <div style={{ display: 'flex' }}>
           <MultipleSelector
             options={this.state.list}
             selected={this.state.currentVal}
@@ -390,14 +393,13 @@ class DataDrivenParameter extends React.Component<any, State> {
             keepOpen={false}
             // tslint:disable-next-line:jsx-no-lambda
             onChange={this.updateParam}
-            dropdownHeight={150}
+            dropdownHeight={this.state.height + 'px'}
             // tslint:disable-next-line:jsx-no-lambda
             getFilterValue={e => {
               // tslint:disable-next-line:no-console
               console.log(e);
             }}
           />
-        </div>
       </React.Fragment>
     );
   }

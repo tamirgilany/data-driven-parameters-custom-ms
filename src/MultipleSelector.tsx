@@ -2,12 +2,14 @@ import * as React from 'react';
 import Picky from 'react-picky';
 import 'react-picky/dist/picky.css'; // Include CSS
 
+/* tslint:disable:no-console */
+
 export interface MultipleSelectorProps {
   selected: any;
   numberDisplayed?: number;
   options: any[];
   filterDebounce?: number;
-  dropdownHeight?: number;
+  dropdownHeight?: any;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   tabIndex?: string | number;
   keepOpen?: boolean;
@@ -31,6 +33,7 @@ export const MultipleSelector: React.SFC<MultipleSelectorProps> = props => {
         dropdownHeight={props.dropdownHeight}
         multiple={props.multiple}
         keepOpen={props.keepOpen}
+        filterPlaceholder='Enter search text'
         getFilterValue={props.getFilterValue}
       />
     </div>

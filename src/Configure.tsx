@@ -22,6 +22,7 @@ interface State {
     field_config: boolean,
     field_enabled: boolean,
     field_list: string[],
+    height: any,
     ignoreSelection: boolean,
     includeAllValue: boolean,
     multiselect: boolean,
@@ -55,6 +56,7 @@ class Configure extends React.Component<any, State> {
         field_config: false,
         field_enabled: false,
         field_list: [],
+        height: 80,
         ignoreSelection: false,
         includeAllValue: false,
         multiselect: false,
@@ -126,10 +128,15 @@ class Configure extends React.Component<any, State> {
         this.setState({ multiselect: e.target.checked });
     };
 
-        // Handles change in alternative multiselect checkbox
-        public altMultiselectChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-            this.setState({ altMultiselect: e.target.checked });
-        };
+    // Handles change in alternative multiselect checkbox
+    public altMultiselectChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        this.setState({ altMultiselect: e.target.checked });
+    };
+
+    // Handles alt multiselect height textbox
+    public heightChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        this.setState({ height: e.target.value });
+    };
 
     // Handles change in auto update checkbox
     public autoUpdateChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -364,6 +371,7 @@ class Configure extends React.Component<any, State> {
         window.tableau.extensions.settings.set('useFormattedValues', this.state.useFormattedValues);
         window.tableau.extensions.settings.set('includeAllValue', (this.state.dataType !== 'string' ? 'false' : this.state.includeAllValue));
         window.tableau.extensions.settings.set('delimiter', this.state.delimiter);
+        window.tableau.extensions.settings.set('height', this.state.height || 80);
         window.tableau.extensions.settings.set('multiselect', (this.state.dataType !== 'string' ? 'false' : this.state.multiselect));
         window.tableau.extensions.settings.set('altMultiselect', (this.state.dataType !== 'string' ? 'false' : this.state.altMultiselect));
         window.tableau.extensions.settings.set('autoUpdate', this.state.autoUpdate);
@@ -406,6 +414,7 @@ class Configure extends React.Component<any, State> {
                     configured: true,
                     dataType: settings.dataType,
                     delimiter: settings.delimiter || '|',
+                    height: settings.height || 80,
                     ignoreSelection: settings.ignoreSelection === 'true' || false,
                     includeAllValue: settings.includeAllValue === 'true' || false,
                     multiselect: settings.multiselect === 'true' || false,
@@ -484,6 +493,8 @@ class Configure extends React.Component<any, State> {
                                 <Checkbox disabled={this.state.dataType !== 'string'} checked={this.state.altMultiselect} onChange={this.altMultiselectChange} style={{ marginRight: '10px'}}>Allow for alternative multiple selections.</Checkbox>
                                 <span children='Delimiter:' style={{ marginRight: '5px' }} />
                                 <TextField kind='line' onChange={this.delimiterChange} className='delimiter-text-field' value={this.state.delimiter} disabled={!this.state.altMultiselect || this.state.dataType !== 'string'} maxLength={1} style={{ width: 20 }} />
+                                <span children='Height:' style={{ margin: '0 5px' }} />
+                                <TextField onChange={this.heightChange} className='height-text-field' value={this.state.height} disabled={!this.state.altMultiselect || this.state.dataType !== 'string'} maxLength={4} style={{ width: 40 }} />
                             </div>
                         </div>
 
