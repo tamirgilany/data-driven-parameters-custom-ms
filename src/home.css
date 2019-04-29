@@ -97,7 +97,7 @@ a:hover {
 
 .picky .selected {
     margin-left: 0;
-    justify-content: end;
+    justify-content: left;
 }
 
 .picky__input {
@@ -166,4 +166,8 @@ a:hover {
     border-right: 0;
     border-left: 0;
     padding: 0;
+}
+
+.picky__dropdown .option.selected, .picky__dropdown .option:hover, .picky__dropdown li.selected, .picky__dropdown li:hover {
+    background-color: transparent;
 }
