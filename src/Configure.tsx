@@ -12,6 +12,7 @@ declare global {
 let dashboard: any;
 
 interface State {
+    altMultiselect: boolean,
     autoUpdate: boolean,
     bg: string,
     configured: boolean,
@@ -44,6 +45,7 @@ const NoParametersFound: string = 'No open input parameters found!';
 
 class Configure extends React.Component<any, State> {
     public readonly state: State = {
+        altMultiselect: false,
         autoUpdate: false,
         bg: '#ffffff',
         configured: false,
@@ -124,6 +126,11 @@ class Configure extends React.Component<any, State> {
         this.setState({ multiselect: e.target.checked });
     };
 
+        // Handles change in alternative multiselect checkbox
+        public altMultiselectChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+            this.setState({ altMultiselect: e.target.checked });
+        };
+
     // Handles change in auto update checkbox
     public autoUpdateChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({ autoUpdate: e.target.checked });
@@ -184,7 +191,8 @@ class Configure extends React.Component<any, State> {
     public setParam = (): void => {
         if (this.state.parameter !== '') {
             dashboard.findParameterAsync(this.state.parameter).then((param: any) => {
-                this.setState({ 
+                this.setState({
+                    altMultiselect: (param.dataType === 'string' ? this.state.altMultiselect : false),
                     dataType: param.dataType,
                     includeAllValue: (param.dataType === 'string' ? this.state.includeAllValue : false),
                     multiselect: (param.dataType === 'string' ? this.state.multiselect : false),
@@ -357,6 +365,7 @@ class Configure extends React.Component<any, State> {
         window.tableau.extensions.settings.set('includeAllValue', (this.state.dataType !== 'string' ? 'false' : this.state.includeAllValue));
         window.tableau.extensions.settings.set('delimiter', this.state.delimiter);
         window.tableau.extensions.settings.set('multiselect', (this.state.dataType !== 'string' ? 'false' : this.state.multiselect));
+        window.tableau.extensions.settings.set('altMultiselect', (this.state.dataType !== 'string' ? 'false' : this.state.altMultiselect));
         window.tableau.extensions.settings.set('autoUpdate', this.state.autoUpdate);
         window.tableau.extensions.settings.set('dataType', this.state.dataType || 'string');
         window.tableau.extensions.settings.set('configured', 'true');
@@ -391,6 +400,7 @@ class Configure extends React.Component<any, State> {
             const settings = window.tableau.extensions.settings.getAll();
             if (settings.configured === 'true') {
                 this.setState({
+                    altMultiselect: settings.altMultiselect === 'true' || false,
                     autoUpdate: settings.autoUpdate === 'true' || false,
                     bg: settings.bg || '#ffffff',
                     configured: true,
@@ -437,7 +447,7 @@ class Configure extends React.Component<any, State> {
                         </div>
 
                         <div className='title' style={{marginTop: '18px'}}>Configure Parameter</div>
-                        <div className='content'>                      
+                        <div className='content'>
                             <Setting selecting='parameter' onClick={this.setParam} onClear={this.clearParam} config={this.state.param_config} nextConfig={this.state.ws_config} selected={this.state.parameter} enabled={this.state.param_enabled && !this.state.param_config} list={this.state.param_list} onChange={this.paramChange} />
                             <Setting selecting='worksheet' onClick={this.setWS} onClear={this.clearWS} config={this.state.ws_config} nextConfig={this.state.field_config} selected={this.state.worksheet} enabled={this.state.ws_enabled} list={this.state.ws_list} onChange={this.wsChange} />
                             <Setting selecting='field' onClick={this.setField} onClear={this.clearField} config={this.state.field_config} selected={this.state.field} enabled={this.state.field_enabled} list={this.state.field_list} onChange={this.fieldChange} />
@@ -455,7 +465,7 @@ class Configure extends React.Component<any, State> {
                                 <Checkbox checked={this.state.autoUpdate} onChange={this.autoUpdateChange} style={{ flexGrow: 1}}>Automatically reset values on load.</Checkbox>
                             </div>
                             <div className='option'>
-                                Sorting: 
+                                Sorting:
                                 <Radio checked={this.state.sort === 'asc'} onChange={this.sortChange} name='sorting' value='asc' style={{ margin: '0px 12px'}}>Ascending (A-Z)</Radio>
                                 <Radio checked={this.state.sort === 'desc'} onChange={this.sortChange} name='sorting' value='desc' style={{ margin: '0px 12px'}}>Descending (Z-A)</Radio>
                             </div>
@@ -469,6 +479,11 @@ class Configure extends React.Component<any, State> {
                                 <Checkbox disabled={this.state.dataType !== 'string'} checked={this.state.multiselect} onChange={this.multiselectChange} style={{ marginRight: '10px'}}>Allow for multiple selections.</Checkbox>
                                 <span children='Delimiter:' style={{ marginRight: '5px' }} />
                                 <TextField kind='line' onChange={this.delimiterChange} className='delimiter-text-field' value={this.state.delimiter} disabled={!this.state.multiselect || this.state.dataType !== 'string'} maxLength={1} style={{ width: 20 }} />
+                            </div>
+                            <div className='option'>
+                                <Checkbox disabled={this.state.dataType !== 'string'} checked={this.state.altMultiselect} onChange={this.altMultiselectChange} style={{ marginRight: '10px'}}>Allow for alternative multiple selections.</Checkbox>
+                                <span children='Delimiter:' style={{ marginRight: '5px' }} />
+                                <TextField kind='line' onChange={this.delimiterChange} className='delimiter-text-field' value={this.state.delimiter} disabled={!this.state.altMultiselect || this.state.dataType !== 'string'} maxLength={1} style={{ width: 20 }} />
                             </div>
                         </div>
 

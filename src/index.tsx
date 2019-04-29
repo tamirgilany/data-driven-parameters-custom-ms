@@ -5,22 +5,21 @@ import Configure from './Configure';
 import DataDrivenParameter from './DataDrivenParameter';
 import Home from './Home';
 
-
 const PrimaryLayout = () => (
   <React.Fragment>
-      <Route path='/' exact={true} component={Home} />
-      <Route path='/parameter' component={DataDrivenParameter} />
-      <Route path='/config' component={Configure} />
+    <Route path='/' exact={true} component={Home} />
+    <Route path='/parameter' component={DataDrivenParameter} />
+    <Route path='/config' component={Configure} />
   </React.Fragment>
-)
+);
 
 class App extends React.Component {
   public render() {
-      return (
-          <HashRouter>
-              <PrimaryLayout />
-          </HashRouter>
-      )
+    return (
+      <HashRouter>
+        <PrimaryLayout />
+      </HashRouter>
+    );
   }
 }
 
