@@ -77,8 +77,13 @@ a:hover {
     width: 100%;
 }
 
+.container {
+    padding: 0;
+}
+
 .container > div:first-child {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0 18px;
 }
 
