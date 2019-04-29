@@ -66,7 +66,7 @@ class DataDrivenParameter extends React.Component<any, State> {
   public configure = (): void => {
     const popupUrl = window.location.origin.includes('localhost')
       ? `${window.location.origin}/#/config`
-      : `${window.location.origin}/extension-data-driven-parameters/#/config`;
+      : `${window.location.origin}/data-driven-parameters-custom-ms/#/config`;
     const payload = '';
     window.tableau.extensions.ui
       .displayDialogAsync(popupUrl, payload, { height: 700, width: 450 })
