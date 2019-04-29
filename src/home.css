@@ -77,6 +77,19 @@ a:hover {
     width: 100%;
 }
 
+.container > div:first-child {
+    overflow: auto;
+    padding: 0 18px;
+}
+
+.footer {
+    padding: 0 18px;
+}
+
+.footer .btncluster {
+    margin-top: 12px;
+}
+
 .picky {
     padding: 0 4px;
     box-sizing: border-box;
