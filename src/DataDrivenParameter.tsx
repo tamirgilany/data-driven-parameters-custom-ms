@@ -222,7 +222,7 @@ class DataDrivenParameter extends React.Component<any, State> {
         list = newList;
 
         this.setState({
-          currentVal: [{ id: 0, name: '(All)' }],
+          // currentVal: [{ id: 0, name: '(All)' }],
           disabled: false,
           firstInit: false,
           height: settings.height,
@@ -293,10 +293,10 @@ class DataDrivenParameter extends React.Component<any, State> {
       }
 
       newValue = values
-      .map(v => {
-        return v.name;
-      })
-      .join(settings.delimiter);
+        .map(v => {
+          return v.name;
+        })
+        .join(settings.delimiter);
     } else {
       for (const opt of e.target.options) {
         if (opt.selected) {
@@ -386,20 +386,20 @@ class DataDrivenParameter extends React.Component<any, State> {
       </React.Fragment>
     ) : (
       <React.Fragment>
-          <MultipleSelector
-            options={this.state.list}
-            selected={this.state.currentVal}
-            multiple={true}
-            keepOpen={false}
-            // tslint:disable-next-line:jsx-no-lambda
-            onChange={this.updateParam}
-            dropdownHeight={this.state.height + 'px'}
-            // tslint:disable-next-line:jsx-no-lambda
-            getFilterValue={e => {
-              // tslint:disable-next-line:no-console
-              console.log(e);
-            }}
-          />
+        <MultipleSelector
+          options={this.state.list}
+          selected={this.state.currentVal}
+          multiple={true}
+          keepOpen={false}
+          // tslint:disable-next-line:jsx-no-lambda
+          onChange={this.updateParam}
+          dropdownHeight={this.state.height + 'px'}
+          // tslint:disable-next-line:jsx-no-lambda
+          getFilterValue={e => {
+            // tslint:disable-next-line:no-console
+            console.log(e);
+          }}
+        />
       </React.Fragment>
     );
   }
