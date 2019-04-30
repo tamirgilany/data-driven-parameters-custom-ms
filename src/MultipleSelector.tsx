@@ -34,6 +34,8 @@ export const MultipleSelector: React.SFC<MultipleSelectorProps> = props => {
         multiple={props.multiple}
         keepOpen={props.keepOpen}
         filterPlaceholder='Enter search text'
+        allSelectedPlaceholder='All Selected'
+        defaultFocusFilter={true}
         getFilterValue={props.getFilterValue}
       />
     </div>
