@@ -222,7 +222,7 @@ class DataDrivenParameter extends React.Component<any, State> {
         list = newList;
 
         this.setState({
-          currentVal: [{}],
+          currentVal: [],
           disabled: false,
           firstInit: false,
           height: settings.height,
