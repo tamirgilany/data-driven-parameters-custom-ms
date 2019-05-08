@@ -38,6 +38,7 @@ export const MultipleSelector: React.SFC<MultipleSelectorProps> = props => {
         selectAllText='(All)'
         defaultFocusFilter={true}
         getFilterValue={props.getFilterValue}
+        numberDisplayed={2}
       />
     </div>
   );
