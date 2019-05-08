@@ -24,6 +24,7 @@ interface State {
   height: any;
   list: any;
   multiselect: boolean;
+  totalValues: number;
 }
 
 const NeedsConfiguring: string = 'Parameter needs configuration';
@@ -62,6 +63,7 @@ class DataDrivenParameter extends React.Component<any, State> {
     height: 80,
     list: [NeedsConfiguring],
     multiselect: false,
+    totalValues: 0,
   };
 
   // Pops open the configure page
@@ -222,12 +224,15 @@ class DataDrivenParameter extends React.Component<any, State> {
         list = newList;
 
         this.setState({
-          currentVal: ['(ALL)'],
+          currentVal: list,
           disabled: false,
           firstInit: false,
           height: settings.height,
           list,
+          totalValues: list.length,
         });
+
+        this.updateParam(this.state.currentVal);
       } else {
         let currentVal;
         // Determine wether to use current param value or first value of list based on settings and if current Tableau parameter value is in list
@@ -283,8 +288,8 @@ class DataDrivenParameter extends React.Component<any, State> {
   public updateParam = (e: any) => {
     const settings = window.tableau.extensions.settings.getAll();
     const values = [];
-
     let newValue;
+
     if (settings.altMultiselect === 'true') {
       for (const opt of e) {
         if (!(opt in values)) {
@@ -292,11 +297,15 @@ class DataDrivenParameter extends React.Component<any, State> {
         }
       }
 
-      newValue = values
-        .map(v => {
-          return v.name;
-        })
-        .join(settings.delimiter);
+      if (e.length < this.state.totalValues) {
+        newValue = values
+          .map(v => {
+            return v.name;
+          })
+          .join(settings.delimiter);
+      } else {
+        newValue = '(All)';
+      }
     } else {
       for (const opt of e.target.options) {
         if (opt.selected) {
